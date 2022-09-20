@@ -1,0 +1,51 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/cloud_order?useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+#服务名称
+  application:
+    name: order-service
+mybatis:
+  type-aliases-package: cn.itcast.user.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    cn.itcast: debug
+  pattern:
+    dateformat: MM-dd HH:mm:ss:SSS
+
+#注册中心地址
+eureka:
+  instance:
+    hostname: localhost
+  #eureka的地址信息
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:9000/eureka
+    #是否将自己注册到Eureka服务中
+    register-with-eureka: true
+    #是否从Eureka获取注册信息
+    fetch-registry: true
+
+
+###设置负载均衡策略第1种方式，默认轮询方式：服务名 - ribbon - NFloadBalancerRuleClassName: 策略
+#user-service:
+  #ribbon:
+    #NFloadBalancerRuleClassName:
+
+
+feign:
+  hystrix:
+    #开启hystrix
+    enabled: true
+    command:
+      default: #也可以针对多个服务
+        execution:
+          isolation:
+            thread:
+              timeoutInMilliseconds: 4000# 设置hystrix的超时时间为4000ms,默认为1s，超过1s没有返回数据，触发降级逻辑

@@ -1,0 +1,43 @@
+#服务端口
+server:
+  port: 9001
+
+spring:
+  application:
+    name: config-server #服务名称
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/y_yg1024/config-repository.git
+    bus:
+      trace:
+        enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+#暴露端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+  endpoint:
+    bus-refresh:
+      enabled: true
+
+#注册中心地址
+eureka:
+  instance:
+    hostname: localhost
+  #eureka的地址信息
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:9000/eureka
+    #是否将自己注册到Eureka服务中
+    register-with-eureka: true
+    #是否从Eureka获取注册信息
+    fetch-registry: true

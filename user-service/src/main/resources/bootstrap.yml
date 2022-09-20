@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+spring:
+  cloud:
+    config:
+      name: user #应用名称，需对应git中配置文件的前半部分
+      profile: dev #环境
+      label: master #git中的分支
+      #uri: http://localhost:9001 #config-server的请求地址
+      discovery:
+        enabled: true #开启服务发现
+        service-id: config-server
+
+
+
+#注册中心地址
+eureka:
+  instance:
+    hostname: localhost
+  #eureka的地址信息
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:9000/eureka
+    #是否将自己注册到Eureka服务中
+    register-with-eureka: true
+    #是否从Eureka获取注册信息
+    fetch-registry: true
